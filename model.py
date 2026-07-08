@@ -26,7 +26,7 @@ def one_reroll_die_value(sides):
 # Step 3 - pay_per_reroll_die_game
 def pay_per_reroll_die_game(sides, reroll_cost):
     # TODO: return {'threshold': t, 'value': V} for the pay-per-reroll die game under the optimal threshold policy.
-    V_star = 0
+    V_star = float('-inf')
     t_star = 0
     for t in range(1, sides+1):
         V = (t+sides)/2 - (t-1)/(sides - t + 1) * reroll_cost
