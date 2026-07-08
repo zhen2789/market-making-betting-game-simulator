@@ -12,8 +12,16 @@ def expected_value(values, probabilities):
     return float(np.sum(np.asarray(values) * np.asarray(probabilities)))
     pass
 
-# Step 2 - one_reroll_die_value (not yet solved)
-# TODO: implement
+# Step 2 - one_reroll_die_value
+def one_reroll_die_value(sides):
+    # TODO: return {'value': expected winnings under optimal reroll policy, 'reroll_faces': sorted faces to reroll}
+    faces = np.arange(1, sides+1)
+    mu = expected_value(faces, [1/sides]*sides)
+    expected_payouts = np.maximum(faces, mu)
+    value = expected_value(expected_payouts, [1/sides]*sides)
+    reroll_faces = np.arange(1, mu).astype(int).tolist()
+    return {'value': value, 'reroll_faces': reroll_faces}
+    pass
 
 # Step 3 - pay_per_reroll_die_game (not yet solved)
 # TODO: implement
