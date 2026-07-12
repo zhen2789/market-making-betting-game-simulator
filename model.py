@@ -112,7 +112,8 @@ def adverse_selection_loss(fair_value, bid, ask, informed_values, informed_proba
 def uncertainty_spread(base_spread, uncertainty):
     """Return a spread width >= base_spread that grows with uncertainty."""
     # TODO: choose a spread width that is at least base_spread and increases with uncertainty.
-    return base_spread + uncertainty
+    k = 0.1
+    return base_spread + k * uncertainty
     pass
 
 # Step 10 - inventory_skewed_quotes (not yet solved)
