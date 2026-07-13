@@ -192,6 +192,13 @@ def run_market_making_episode(true_value, counterparty_sides, initial_fair_value
     }
     pass
 
-# Step 14 - summarize_episode_pnls (not yet solved)
-# TODO: implement
+# Step 14 - summarize_episode_pnls
+def summarize_episode_pnls(pnls):
+    # TODO: return a dict with keys 'mean', 'std' (ddof=0), and 'worst' for the given P&L sequence.
+    pnl_array = np.asarray(pnls, dtype=float)
+    mean = float(pnl_array.mean())
+    std = float(pnl_array.std())
+    worst = float(pnl_array.min())
+    return {'mean': mean, 'std': std, 'worst': worst}
+    pass
 
