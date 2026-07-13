@@ -159,8 +159,38 @@ def update_remaining_card_value(remaining_counts, revealed_value):
     return {'remaining_counts': counts, 'expected_value': ev}
     pass
 
-# Step 13 - run_market_making_episode (not yet solved)
-# TODO: implement
+# Step 13 - run_market_making_episode
+def run_market_making_episode(true_value, counterparty_sides, initial_fair_value, config):
+    # TODO: loop over counterparty_sides, quote, trade, update beliefs, then settle at true_value.
+    base_spread = config.get('base_spread', 0.0)
+    uncertainty = config.get('uncertainty', 0.0)
+    skew_strength = config.get('skew_strength', 0.0)
+    belief_adjustment = config.get('belief_adjustment', 0.0)
+    cash, inv, fv = 0.0, 0.0, initial_fair_value
+    history = []
+    for side in counterparty_sides:
+        sw = uncertainty_spread(base_spread, uncertainty)
+        q = inventory_skewed_quotes(fv, sw, inv, skew_strength)
+        st = execute_trade({'cash': cash, 'inventory': inv}, side, q['bid'], q['ask'])
+        cash, inv = st['cash'], st['inventory']
+        fv = update_fair_value_from_trade(fv, side, q['bid'], q['ask'], belief_adjustment)
+        history.append({
+            'bid': q['bid'],
+            'ask': q['ask'],
+            'side': side,
+            'cash': cash,
+            'inventory': inv,
+            'fair_value': fv
+        })
+    pnl = mark_to_market_pnl(cash, inv, true_value)
+    return {
+        'pnl': pnl,
+        'cash': cash,
+        'inventory': inv,
+        'fair_value': fv,
+        'history': history
+    }
+    pass
 
 # Step 14 - summarize_episode_pnls (not yet solved)
 # TODO: implement
